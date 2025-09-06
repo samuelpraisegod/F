@@ -24,13 +24,13 @@
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
             pointer-events: auto;
         }
         #hamburger {
             cursor: pointer;
             font-size: 24px;
-            z-index: 101;
+            z-index: 1001;
             pointer-events: auto;
             color: white;
         }
@@ -43,7 +43,7 @@
             background: #222;
             color: #ccc;
             transition: left 0.3s ease;
-            z-index: 99;
+            z-index: 999;
             overflow-y: auto;
         }
         #sidebar.active {
@@ -148,30 +148,6 @@
         th {
             background: #f8f9fa;
         }
-        @media (max-width: 767px) {
-            #main-content {
-                margin: 80px 10px 10px;
-            }
-            #sidebar {
-                width: 200px;
-                left: -200px;
-            }
-            #sidebar.active {
-                left: 0;
-            }
-            .action-buttons {
-                flex-direction: column;
-            }
-            button {
-                width: 100%;
-            }
-            table {
-                font-size: 14px;
-            }
-            th, td {
-                padding: 8px;
-            }
-        }
         /* Deposit and Withdrawal styles */
         .tabs {
             display: flex;
@@ -228,6 +204,35 @@
             background: #ddd;
             margin: 10px 0;
             border: 1px solid #ccc;
+        }
+        @media (max-width: 767px) {
+            #main-content {
+                margin: 80px 10px 10px;
+            }
+            #sidebar {
+                width: 200px;
+                left: -200px;
+            }
+            #sidebar.active {
+                left: 0;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 8px;
+            }
+            .tab {
+                flex: 1 1 100%;
+                margin-bottom: 5px;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -465,6 +470,7 @@
             <p>Full transaction history here.</p>
         </section>
         <!-- Placeholder sections -->
+        <section id="dashboard-section"><h1>Dashboard</h1><p>Welcome to DivoraSplit! Navigate using the sidebar.</p></section>
         <section id="profile-view-section"><h1>View Profile</h1><p>Profile details here.</p></section>
         <section id="profile-edit-section"><h1>Edit Profile</h1><p>Edit profile form here.</p></section>
         <section id="settings-section"><h1>Settings</h1><p>Settings options here.</p></section>
@@ -508,7 +514,7 @@
             const confirmDeposit = document.getElementById('confirm-deposit');
             const submitWithdrawal = document.getElementById('submit-withdrawal');
 
-  // State
+ // State
             const userId = 'user123';
             const currentBalance = 2350.00;
             const availableBalance = 2100.00;
@@ -518,30 +524,36 @@
             let selectedDepositMethod = 'Bank Transfer';
             let selectedWithdrawMethod = 'Bank Transfer';
 
- // Debug Button Clicks
+// Debug Button Clicks
             document.querySelectorAll('button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     console.log(`Button clicked: ${btn.id || btn.textContent}`);
                 });
             });
 
-  // Hamburger Menu
-            if (hamburger) {
-                console.log('Hamburger element found:', hamburger);
-                hamburger.addEventListener('click', () => {
-                    console.log('Hamburger menu clicked');
-                    if (sidebar) {
-                        sidebar.classList.toggle('active');
-                        console.log('Sidebar display set to:', sidebar.classList.contains('active') ? 'block' : 'none');
-                    } else {
-                        console.error('Sidebar element not found');
-                    }
-                });
+ // Hamburger Menu Fix
+            if (!hamburger) {
+                console.error('Hamburger element not found. Check for <div id="hamburger"> in DOM.');
             } else {
-                console.error('Hamburger element not found');
+                console.log('Hamburger element found:', hamburger);
+                try {
+                    hamburger.addEventListener('click', () => {
+                        console.log('Hamburger menu clicked');
+                        if (sidebar) {
+                            const isActive = sidebar.classList.toggle('active');
+                            console.log('Sidebar display set to:', isActive ? 'block' : 'none');
+                            console.log('Sidebar classes:', sidebar.className);
+                            console.log('Sidebar style.left:', sidebar.style.left);
+                        } else {
+                            console.error('Sidebar element not found');
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error attaching hamburger event listener:', e);
+                }
             }
 
- // Accordion Menu
+// Accordion Menu
             console.log(`Found ${menuItems.length} menu items`);
             menuItems.forEach(item => {
                 if (item.classList.contains('has-sub-menu')) {
@@ -558,7 +570,7 @@
                 }
             });
 
-// Sub-Menu Navigation
+  // Sub-Menu Navigation
             subMenuItems.forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -582,20 +594,22 @@
                     item.classList.add('active');
                     item.closest('.has-sub-menu').classList.add('active');
                     if (window.innerWidth <= 767) {
-                        sidebar.classList.remove('active');
-                        console.log('Sidebar hidden on mobile after selection');
+                        if (sidebar) {
+                            sidebar.classList.remove('active');
+                            console.log('Sidebar hidden on mobile after selection');
+                        }
                     }
                 });
             });
 
-// Quick Action Buttons
+   // Quick Action Buttons
             if (depositButton) {
                 depositButton.addEventListener('click', () => {
                     console.log('Deposit button clicked');
                     sections.forEach(sec => sec.classList.remove('active'));
                     document.getElementById('deposit-bank-section').classList.add('active');
                     console.log('Showing section: deposit-bank-section');
-                    if (window.innerWidth <= 767) {
+                    if (window.innerWidth <= 767 && sidebar) {
                         sidebar.classList.remove('active');
                     }
                 });
@@ -606,19 +620,19 @@
                     sections.forEach(sec => sec.classList.remove('active'));
                     document.getElementById('withdraw-bank-section').classList.add('active');
                     console.log('Showing section: withdraw-bank-section');
-                    if (window.innerWidth <= 767) {
+                    if (window.innerWidth <= 767 && sidebar) {
                         sidebar.classList.remove('active');
                     }
                 });
             }
 
-// Deposit and Withdrawal Tabs
+ // Deposit and Withdrawal Tabs
             const depositTabs = document.querySelectorAll('#deposit-bank-section .tab');
             const depositTabContents = document.querySelectorAll('#deposit-bank-section .tab-content');
             const withdrawTabs = document.querySelectorAll('#withdraw-bank-section .tab');
             const withdrawTabContents = document.querySelectorAll('#withdraw-bank-section .tab-content');
 
-depositTabs.forEach(tab => {
+  depositTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     console.log(`Deposit tab clicked: ${tab.dataset.tab}`);
                     depositTabs.forEach(t => t.classList.remove('active'));
@@ -631,7 +645,7 @@ depositTabs.forEach(tab => {
                 });
             });
 
-withdrawTabs.forEach(tab => {
+   withdrawTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     console.log(`Withdraw tab clicked: ${tab.dataset.tab}`);
                     withdrawTabs.forEach(t => t.classList.remove('active'));
@@ -644,7 +658,7 @@ withdrawTabs.forEach(tab => {
                 });
             });
 
-// Data Management
+   // Data Management
             function loadTransactions() {
                 try {
                     const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
@@ -659,7 +673,7 @@ withdrawTabs.forEach(tab => {
                 }
             }
 
-  function saveDeposits(deposits) {
+   function saveDeposits(deposits) {
                 try {
                     localStorage.setItem('deposits', JSON.stringify(deposits));
                 } catch (e) {
@@ -668,7 +682,7 @@ withdrawTabs.forEach(tab => {
                 }
             }
 
- function saveWithdrawals(withdrawals) {
+  function saveWithdrawals(withdrawals) {
                 try {
                     localStorage.setItem('withdrawals', JSON.stringify(withdrawals));
                 } catch (e) {
@@ -689,29 +703,29 @@ withdrawTabs.forEach(tab => {
                     const tr = document.createElement('tr');
                     const statusIcon = t.status === 'Approved' ? '✅' : t.status === 'Pending' ? '⏳' : '❌';
                     tr.innerHTML = `
-                        <td>${t.timestamp.split(',')[0]}</td>
-         <td>${t.type}</td>
+<td>${t.timestamp.split(',')[0]}</td>
+                        <td>${t.type}</td>
                         <td>$${t.amount.toFixed(2)}</td>
-<td>${statusIcon} ${t.status}</td>
+                        <td>${statusIcon} ${t.status}</td>
                     `;
                     transactionHistory.appendChild(tr);
                 });
             }
 
-// Deposit Functions
+   // Deposit Functions
             function generateReferenceCode() {
                 return 'DEP-' + Math.random().toString(36).substr(2, 5).toUpperCase();
             }
 
-function updateReferenceCode() {
+ function updateReferenceCode() {
                 const bankReference = document.getElementById('bank-reference');
                 if (bankReference && selectedDepositMethod === 'Bank Transfer') {
                     bankReference.textContent = generateReferenceCode();
                 }
             }
- function submitDeposit() {
-console.log(`Confirm Deposit clicked,    method: ${selectedDepositMethod}`);
- let amount, currency, details = {};
+  function submitDeposit() {
+                console.log(`Confirm Deposit clicked, method: ${selectedDepositMethod}`);
+                let amount, currency, details = {};
 
  if (selectedDepositMethod === 'Bank Transfer') {
                     amount = parseFloat(document.getElementById('bank-amount').value);
@@ -737,7 +751,7 @@ console.log(`Confirm Deposit clicked,    method: ${selectedDepositMethod}`);
                     return;
                 }
 
- const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
+const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
                 const newDeposit = {
                     id: deposits.length + 1,
                     method: selectedDepositMethod,
@@ -750,10 +764,11 @@ console.log(`Confirm Deposit clicked,    method: ${selectedDepositMethod}`);
                 };
                 deposits.push(newDeposit);
                 saveDeposits(deposits);
- alert(`Deposit request for $${amount.toFixed(2)} via ${selectedDepositMethod} submitted! Status: Pending`);
+  alert(`Deposit request for $${amount.toFixed(2)} via ${selectedDepositMethod} submitted! Status: Pending`);
                 resetDepositForm();
                 loadTransactionHistory();
             }
+
 function resetDepositForm() {
                 document.getElementById('bank-amount').value = '500';
                 document.getElementById('crypto-amount').value = '500';
@@ -763,8 +778,7 @@ function resetDepositForm() {
                 if (document.getElementById('crypto-proof')) document.getElementById('crypto-proof').value = '';
                 updateReferenceCode();
             }
-
- // Withdrawal Functions
+   // Withdrawal Functions
             function updateFeePreview() {
                 const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
                 const fee = amount * feeRate;
@@ -772,7 +786,7 @@ function resetDepositForm() {
                 document.getElementById('fee-preview').textContent = `You will receive: $${receiveAmount.toFixed(2)} (after ${feeRate * 100}% fee)`;
             }
 
-function submitWithdrawal() {
+  function submitWithdrawal() {
                 console.log(`Submit Withdrawal clicked, method: ${selectedWithdrawMethod}`);
                 const amount = parseFloat(document.getElementById('withdraw-amount').value);
                 const currency = document.getElementById('withdraw-currency').value;
@@ -790,7 +804,8 @@ function submitWithdrawal() {
                     alert('Please enter a valid OTP/2FA code.');
                     return;
                 }
- let details = {};
+
+   let details = {};
                 if (selectedWithdrawMethod === 'Bank Transfer') {
                     const bankName = document.getElementById('bank-name').value;
                     const accountNumber = document.getElementById('bank-account-number').value;
@@ -822,7 +837,8 @@ function submitWithdrawal() {
                         wallet_address: walletAddress
                     };
                 }
- const withdrawals = JSON.parse(localStorage.getItem('withdrawals')) || [];
+
+   const withdrawals = JSON.parse(localStorage.getItem('withdrawals')) || [];
                 const newWithdrawal = {
                     id: withdrawals.length + 1,
                     method: selectedWithdrawMethod,
@@ -835,12 +851,13 @@ function submitWithdrawal() {
                 };
                 withdrawals.push(newWithdrawal);
                 saveWithdrawals(withdrawals);
- alert(`Withdrawal request for $${amount.toFixed(2)} via ${selectedWithdrawMethod} submitted! Status: Pending`);
+
+   alert(`Withdrawal request for $${amount.toFixed(2)} via ${selectedWithdrawMethod} submitted! Status: Pending`);
                 resetWithdrawalForm();
                 loadTransactionHistory();
             }
 
-function resetWithdrawalForm() {
+  function resetWithdrawalForm() {
                 document.getElementById('withdraw-amount').value = '200';
                 document.getElementById('withdraw-currency').value = 'USD';
                 document.getElementById('bank-name').value = 'GTBank';
@@ -855,7 +872,7 @@ function resetWithdrawalForm() {
                 updateFeePreview();
             }
 
-// Event Listeners
+ // Event Listeners
             if (confirmDeposit) {
                 confirmDeposit.addEventListener('click', submitDeposit);
             }
@@ -867,11 +884,27 @@ function resetWithdrawalForm() {
                 document.getElementById('withdraw-currency').addEventListener('change', updateFeePreview);
             }
 
-// Initial Load
+  // Initial Load
             console.log('Initializing dashboard');
             updateReferenceCode();
             updateFeePreview();
             loadTransactionHistory();
+
+// Prepopulate sample data for testing
+            const sampleDeposits = [
+                { id: 1, method: 'Bank Transfer', amount: 500, currency: 'USD', details: {}, status: 'Approved', timestamp: '2025-09-01, 12:00:00', user_id: 'user123' },
+                { id: 2, method: 'Bank Transfer', amount: 1000, currency: 'USD', details: {}, status: 'Approved', timestamp: '2025-08-25, 12:00:00', user_id: 'user123' }
+            ];
+            const sampleWithdrawals = [
+                { id: 1, method: 'Bank Transfer', amount: 200, currency: 'USD', details: {}, status: 'Pending', timestamp: '2025-08-29, 12:00:00', user_id: 'user123' },
+                { id: 2, method: 'Crypto Wallet', amount: 150, currency: 'USD', details: { coin_type: 'USDT' }, status: 'Rejected', timestamp: '2025-08-20, 12:00:00', user_id: 'user123' }
+            ];
+            if (!localStorage.getItem('deposits')) {
+                localStorage.setItem('deposits', JSON.stringify(sampleDeposits));
+            }
+            if (!localStorage.getItem('withdrawals')) {
+                localStorage.setItem('withdrawals', JSON.stringify(sampleWithdrawals));
+            }
         });
     </script>
 </body>
