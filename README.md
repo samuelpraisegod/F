@@ -22,11 +22,13 @@
             width: 100%;
             top: 0;
             z-index: 100;
+            pointer-events: auto;
         }
         #hamburger {
             cursor: pointer;
             font-size: 24px;
             z-index: 101;
+            pointer-events: auto;
         }
         #menu {
             display: none;
@@ -401,7 +403,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM loaded, initializing DivoraSplit Dashboard...');
 
-// Prop Firm Data
+ // Prop Firm Data
             const propFirms = {
                 "FTMO": {
                     "accounts": [
@@ -524,48 +526,54 @@
             let selectedWithdrawMethod = 'Bank Account';
             const userId = 'user123'; // Simulated user ID
 
- // Debug all button clicks
-            document.querySelectorAll('button').forEach(btn => {
+ // Debug all button clicks (excluding hamburger to avoid conflict)
+            document.querySelectorAll('button:not(#hamburger)').forEach(btn => {
                 btn.addEventListener('click', () => {
                     console.log(`Button clicked: ${btn.id || btn.textContent}`);
                 });
             });
 
  // Hamburger Menu and Navigation
-            if (hamburger && menu) {
+            console.log('Checking hamburger and menu elements...');
+            if (hamburger) {
+                console.log('Hamburger element found:', hamburger);
                 hamburger.addEventListener('click', () => {
                     console.log('Hamburger menu clicked');
-                    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+                    if (menu) {
+                        console.log('Menu element found, current display:', menu.style.display);
+                        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+                        console.log('Menu display set to:', menu.style.display);
+                    } else {
+                        console.error('Menu element not found');
+                    }
                 });
             } else {
-                console.error('Hamburger or menu element not found');
+                console.error('Hamburger element not found');
             }
 
  if (menuItems.length > 0) {
+ console.log(`Found ${menuItems.length} menu items`);
                 menuItems.forEach(item => {
                     item.addEventListener('click', () => {
                         const sectionId = item.dataset.section;
                         console.log(`Menu item clicked: ${sectionId}`);
-                        // Hide all sections
                         sections.forEach(sec => {
                             sec.style.display = 'none';
                             console.log(`Hiding section: ${sec.id}`);
                         });
-                        // Show selected section
                         const targetSection = document.getElementById(sectionId);
                         if (targetSection) {
                             targetSection.style.display = 'block';
                             console.log(`Showing section: ${sectionId}`);
                         } else {
                             console.error(`Section not found: ${sectionId}`);
-                            // Fallback to dashboard
                             document.getElementById('dashboard-section').style.display = 'block';
                             console.log('Fallback: Showing dashboard-section');
                         }
-                        menu.style.display = 'none';
-                        console.log('Menu hidden after section selection');
-
-// Load data for specific sections
+                        if (menu) {
+                            menu.style.display = 'none';
+                            console.log('Menu hidden after section selection');
+                        }
                         if (sectionId === 'requests-section') {
                             loadAllRequests();
                             loadAuditLogs();
@@ -581,8 +589,7 @@
             } else {
                 console.error('No menu items found');
             }
-
-  // Data Management Functions
+ // Data Management Functions
             function loadRequests() {
                 try {
                     return JSON.parse(localStorage.getItem('requests')) || [];
@@ -610,7 +617,7 @@
                 }
             }
 
-  function saveRequests(requests) {
+ function saveRequests(requests) {
                 try {
                     localStorage.setItem('requests', JSON.stringify(requests));
                 } catch (e) {
@@ -646,7 +653,7 @@
                 return 'REF-' + Math.random().toString(36).substr(2, 4).toUpperCase();
             }
 
-  // Co-Funding Functions
+ // Co-Funding Functions
             function updateAccountSizes() {
                 console.log('Updating account sizes for firm:', firmSelect.value);
                 const firm = firmSelect.value;
@@ -654,7 +661,7 @@
                 selectedAccount = 'N/A';
                 accountPrice = 0.0;
 
-  if (firm === 'System/Partner Will Choose') {
+if (firm === 'System/Partner Will Choose') {
                     challengeRules.textContent = 'Select a firm to view rules.';
                     requesterShare.textContent = 'N/A';
                     coFunderShare.textContent = 'N/A';
@@ -682,7 +689,7 @@ challengeRules.textContent = propFirms[firm].challenge_rules;
                 calculateShares();
             }
 
-   function calculateShares() {
+ function calculateShares() {
                 console.log('Calculating shares');
                 const profitSplit = profitSplitInput.value || '50:50';
                 if (selectedAccount === 'N/A') {
@@ -725,10 +732,10 @@ challengeRules.textContent = propFirms[firm].challenge_rules;
                     return;
                 }
 
- const reqShareVal = parseFloat(reqShareText.replace('$', '').split(' ')[0]);
+  const reqShareVal = parseFloat(reqShareText.replace('$', '').split(' ')[0]);
                 const coShareVal = parseFloat(coFunderShare.textContent.replace('$', '').split(' ')[0]);
 
- const requests = loadRequests();
+  const requests = loadRequests();
                 const newRequest = {
                     id: requests.length + 1,
                     type: 'co-funding',
@@ -745,9 +752,8 @@ challengeRules.textContent = propFirms[firm].challenge_rules;
                 requests.push(newRequest);
                 saveRequests(requests);
                 saveAuditLog('submit_co_funding', `User ${userId} submitted co-funding request ID ${newRequest.id}`);
-
- alert(`Co-Funding Request submitted! Your contribution: $${reqShareVal.toFixed(2)} (Locked in Escrow). Waiting for a co-funder... Status: Pending`);
-  profitSplitInput.value = '50:50';
+  alert(`Co-Funding Request submitted! Your contribution: $${reqShareVal.toFixed(2)} (Locked in Escrow). Waiting for a co-funder... Status: Pending`);
+                profitSplitInput.value = '50:50';
                 firmSelect.value = 'System/Partner Will Choose';
                 updateAccountSizes();
             }
@@ -757,8 +763,8 @@ challengeRules.textContent = propFirms[firm].challenge_rules;
                 console.log('Updating deposit details for method:', selectedDepositMethod);
                 const details = {
                     'Bank': `
-                        <p><strong>Payment Details:</strong></p>
- <p>Bank Name: GTBank</p>
+ <p <strong>Payment Details:</strong></p>
+                        <p>Bank Name: GTBank</p>
                         <p>Account Name: DivoraSplit Ltd</p>
                         <p>Account Number: 0123456789</p>
                         <p>Reference Code: ${generateReferenceCode()}</p>
@@ -831,7 +837,7 @@ challengeRules.textContent = propFirms[firm].challenge_rules;
                     details.wallet_address = '0xAB123456789CDEFFED1234...';
                 }
 
- const requests = loadRequests();
+  const requests = loadRequests();
                 const newRequest = {
                     id: requests.length + 1,
                     type: 'deposit',
@@ -847,7 +853,7 @@ challengeRules.textContent = propFirms[firm].challenge_rules;
                 saveRequests(requests);
                 saveAuditLog('submit_deposit', `User ${userId} submitted deposit request ID ${newRequest.id}`);
 
-alert(`Deposit request for $${amount.toFixed(2)} via ${selectedDepositMethod} submitted! Status: Pending`);
+ alert(`Deposit request for $${amount.toFixed(2)} via ${selectedDepositMethod} submitted! Status: Pending`);
                 depositAmount.value = '500';
                 if (document.getElementById('payment-proof')) document.getElementById('payment-proof').value = '';
                 if (document.getElementById('card-number')) document.getElementById('card-number').value = '';
@@ -856,7 +862,7 @@ alert(`Deposit request for $${amount.toFixed(2)} via ${selectedDepositMethod} su
                 loadRecentTransactions();
             }
 
-function submitWithdrawRequest() {
+ function submitWithdrawRequest() {
                 console.log('Submit Withdraw clicked');
                 const amount = parseFloat(withdrawAmount.value);
                 if (!amount || amount <= 0) {
@@ -889,7 +895,7 @@ function submitWithdrawRequest() {
                     }
                 }
 
-  const requests = loadRequests();
+ const requests = loadRequests();
                 const newRequest = {
                     id: requests.length + 1,
                     type: 'withdraw',
@@ -916,7 +922,7 @@ function submitWithdrawRequest() {
                 loadRecentTransactions();
             }
 
-   // Managed Trading Functions
+ // Managed Trading Functions
             function submitManagedRequest() {
                 console.log('Submit Managed Trading clicked');
                 const capital = parseFloat(traderCapitalSize.value);
@@ -955,7 +961,7 @@ function submitWithdrawRequest() {
                     return;
                 }
 
- const requests = loadRequests();
+  const requests = loadRequests();
                 const newRequest = {
                     id: requests.length + 1,
                     type: 'managed-trading',
@@ -1010,7 +1016,7 @@ function submitWithdrawRequest() {
                 const profit = parseFloat(investorProfitTarget.value);
                 const split = profitSplit.value === 'Custom' ? customProfitSplit.value : profitSplit.value;
 
-  if (!brokerName.value) {
+   if (!brokerName.value) {
                     alert('Please enter a valid broker name.');
                     return;
                 }
@@ -1063,7 +1069,7 @@ function submitWithdrawRequest() {
                 saveRequests(requests);
                 saveAuditLog('submit_managed_account', `User ${userId} submitted managed account request ID ${newRequest.id}`);
 
-alert(`Managed Account Request submitted! Status: Pending`);
+   alert(`Managed Account Request submitted! Status: Pending`);
                 brokerName.value = '';
                 accountId.value = '';
                 traderPlatformId.value = '';
@@ -1083,14 +1089,13 @@ alert(`Managed Account Request submitted! Status: Pending`);
                 loadTraderDashboard();
             }
 
- // Dashboard Functions
+  // Dashboard Functions
             function loadRecentTransactions() {
                 console.log('Loading recent transactions');
                 const requests = loadRequests();
                 recentDeposits.innerHTML = '';
                 recentWithdrawals.innerHTML = '';
-
-  const deposits = requests.filter(req => req.type === 'deposit' && req.user_id === userId).slice(-5);
+    const deposits = requests.filter(req => req.type === 'deposit' && req.user_id === userId).slice(-5);
                 deposits.forEach(req => {
                     const li = document.createElement('li');
                     const method = req.method === 'Crypto' ? `Crypto (${req.details.coin_type || 'Unknown'})` : req.method;
@@ -1115,7 +1120,7 @@ alert(`Managed Account Request submitted! Status: Pending`);
                 traderRequests.innerHTML = '';
                 traderInvestors.innerHTML = '';
 
- const traderApps = requests.filter(req => req.type === 'managed-trading' && req.user_id === userId);
+  const traderApps = requests.filter(req => req.type === 'managed-trading' && req.user_id === userId);
                 traderApps.forEach(req => {
                     const li = document.createElement('li');
                     let text = `ID: ${req.id} | Account: ${req.account_type} | Capital: $${req.capital_size.toFixed(2)} | Profit Target: ${req.profit_target}% | Return Cycle: ${req.return_cycle} | Status: ${req.status} | Timestamp: ${req.timestamp}`;
@@ -1134,7 +1139,7 @@ alert(`Managed Account Request submitted! Status: Pending`);
                 if (investorRequests.length === 0) traderInvestors.innerHTML = '<li>No linked investor requests.</li>';
             }
 
- function loadAuditLogs() {
+   function loadAuditLogs() {
                 console.log('Loading audit logs');
                 const logs = loadAuditLogs();
                 auditLogs.innerHTML = '';
@@ -1146,7 +1151,7 @@ alert(`Managed Account Request submitted! Status: Pending`);
                 if (logs.length === 0) auditLogs.innerHTML = '<li>No audit logs.</li>';
             }
 
- function viewPending() {
+   function viewPending() {
                 console.log('View Pending Requests clicked');
                 const requests = loadRequests();
                 const pending = requests.filter(req => (req.type === 'co-funding' || req.type === 'managed-trading' || req.type === 'managed-account') && req.status === 'Pending');
@@ -1197,6 +1202,7 @@ alert(`Managed Account Request submitted! Status: Pending`);
                     li.textContent = text;
                     pendingList.appendChild(li);
                 });
+
 pendingModal.style.display = 'flex';
             }
 
@@ -1205,14 +1211,13 @@ pendingModal.style.display = 'flex';
                 const requests = loadRequests();
                 const req = requests.find(r => r.id === id && r.type === 'co-funding' && r.status === 'Pending');
                 if (!req) return;
-
-  const total = req.requester_share + req.co_funder_share;
+    const total = req.requester_share + req.co_funder_share;
                 if (Math.abs(total - req.account_price) > 0.01) {
                     alert('Total shares do not match account price.');
                     return;
                 }
 
-  req.status = 'Active';
+   req.status = 'Active';
                 saveRequests(requests);
                 saveAuditLog('accept_co_funding', `Admin accepted co-funding request ID ${id}`);
                 alert(`Co-Funding Request ID ${id} accepted! Total funded: $${req.account_price.toFixed(2)}. Status: Active.`);
@@ -1220,7 +1225,7 @@ pendingModal.style.display = 'flex';
                 loadAllRequests();
             }
 
- function acceptManagedRequest(id, type) {
+  function acceptManagedRequest(id, type) {
                 console.log(`Accepting ${type} request ID ${id}`);
                 const requests = loadRequests();
                 const req = requests.find(r => r.id === id && r.type === type && r.status === 'Pending');
@@ -1235,7 +1240,7 @@ pendingModal.style.display = 'flex';
                 loadTraderDashboard();
             }
 
- function declineRequest(id) {
+  function declineRequest(id) {
                 console.log(`Declining request ID ${id}`);
                 const requests = loadRequests();
                 const req = requests.find(r => r.id === id && r.status === 'Pending');
@@ -1250,7 +1255,7 @@ pendingModal.style.display = 'flex';
                 loadTraderDashboard();
             }
 
-  function loadAllRequests() {
+ function loadAllRequests() {
                 console.log('Loading all requests');
                 const requests = loadRequests();
                 allRequestsList.innerHTML = '';
@@ -1262,8 +1267,7 @@ pendingModal.style.display = 'flex';
                     const idMatch = !idFilter || req.user_id?.toLowerCase().includes(idFilter) || req.trader_platform_id?.toLowerCase().includes(idFilter);
                     return statusMatch && idMatch;
                 });
-
-  if (filtered.length === 0) {
+     if (filtered.length === 0) {
                     allRequestsList.innerHTML = '<li>No requests available.</li>';
                     return;
                 }
@@ -1304,7 +1308,7 @@ pendingModal.style.display = 'flex';
                     text += ` | Status: ${req.status} | Timestamp: ${req.timestamp}`;
                     li.innerHTML = text;
 
-   if (req.status === 'Active') {
+  if (req.status === 'Active') {
                         const completeButton = document.createElement('button');
                         completeButton.textContent = 'Mark as Completed';
                         completeButton.onclick = () => completeRequest(req.id);
@@ -1322,7 +1326,7 @@ pendingModal.style.display = 'flex';
                 });
             }
 
- function setStatus(id, status) {
+  function setStatus(id, status) {
                 console.log(`Setting request ID ${id} to status ${status}`);
                 const requests = loadRequests();
                 const req = requests.find(r => r.id === id && r.status === 'Active');
@@ -1336,7 +1340,7 @@ pendingModal.style.display = 'flex';
                 loadTraderDashboard();
             }
 
- function completeRequest(id) {
+  function completeRequest(id) {
                 console.log(`Completing request ID ${id}`);
                 const requests = loadRequests();
                 const req = requests.find(r => r.id === id && r.status === 'Active');
@@ -1350,7 +1354,7 @@ pendingModal.style.display = 'flex';
                 loadTraderDashboard();
             }
 
- function exportHistory() {
+   function exportHistory() {
                 console.log('Exporting agreement history');
                 const requests = loadRequests();
                 const data = JSON.stringify(requests, null, 2);
@@ -1388,7 +1392,7 @@ pendingModal.style.display = 'flex';
                     return;
                 }
 
-   const messages = loadMessages();
+  const messages = loadMessages();
                 const newMessage = {
                     sender: userId,
                     recipient,
@@ -1404,7 +1408,7 @@ pendingModal.style.display = 'flex';
                 openMessagesModal();
             }
 
-   // Event Listeners
+ // Event Listeners
             if (firmSelect) firmSelect.addEventListener('change', updateAccountSizes);
             if (profitSplitInput) profitSplitInput.addEventListener('input', calculateShares);
             if (submitButton) submitButton.addEventListener('click', submitRequest);
@@ -1426,7 +1430,7 @@ pendingModal.style.display = 'flex';
             if (applyFilter) applyFilter.addEventListener('click', loadAllRequests);
             if (exportHistoryButton) exportHistoryButton.addEventListener('click', exportHistory);
 
- tabs.forEach(tab => {
+   tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     console.log(`Tab clicked: ${tab.dataset.tab}`);
                     tabs.forEach(t => t.classList.remove('active'));
@@ -1462,15 +1466,14 @@ withdrawMethodButtons.forEach(button => {
                     bankNameCustom.style.display = bankNameSelect.value === 'Other' ? 'block' : 'none';
                 });
             }
-
- if (profitSplit) {
+    if (profitSplit) {
                 profitSplit.addEventListener('change', () => {
                     console.log('Profit split changed:', profitSplit.value);
                     customProfitSplit.style.display = profitSplit.value === 'Custom' ? 'block' : 'none';
                 });
             }
 
- // Initial Load
+   // Initial Load
             console.log('Initializing dashboard');
             updateAccountSizes();
             updateDepositDetails();
