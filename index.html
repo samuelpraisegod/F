@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamburger Test</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; }
+        header {
+            background: #222;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        #hamburger {
+            cursor: pointer;
+            font-size: 30px;
+            padding: 10px;
+            z-index: 1001;
+            position: relative;
+            pointer-events: auto;
+            color: white;
+            background: #333;
+            border-radius: 5px;
+        }
+        #sidebar {
+            position: fixed;
+            top: 60px;
+            left: -250px;
+            width: 250px;
+            height: calc(100vh - 60px);
+            background: #222;
+            color: #ccc;
+            transition: left 0.3s ease;
+            z-index: 999;
+        }
+        #sidebar.active { left: 0; }
+        #sidebar ul { list-style: none; padding: 0; }
+        #sidebar li { padding: 15px 20px; cursor: pointer; }
+        #sidebar li:hover { background: #007bff; color: white; }
+        #main-content { margin: 80px 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="hamburger">&#9776;</div>
+        <h1>Test Dashboard</h1>
+    </header>
+    <nav id="sidebar">
+        <ul>
+            <li>Test Item 1</li>
+            <li>Test Item 2</li>
+        </ul>
+    </nav>
+    <div id="main-content">
+        <p>Test content</p>
+    </div>
+    <script>
+        console.log('DOM loaded, initializing hamburger test...');
+        function initHamburger() {
+            const hamburger = document.getElementById('hamburger');
+            const sidebar = document.getElementById('sidebar');
+            if (!hamburger) {
+                console.error('Hamburger element not found!');
+                return;
+            }
+            if (!sidebar) {
+                console.error('Sidebar element not found!');
+                return;
+            }
+            console.log('Hamburger and sidebar found:', hamburger, sidebar);
+            hamburger.addEventListener('click', () => {
+                console.log('Hamburger clicked');
+                sidebar.classList.toggle('active');
+                console.log('Sidebar state:', sidebar.classList.contains('active') ? 'Visible (left: 0)' : 'Hidden (left: -250px)');
+            });
+        }
+        // Run immediately and after a delay to catch late DOM loading
+        initHamburger();
+        setTimeout(initHamburger, 100);
+    </script>
+</body>
+</html>
