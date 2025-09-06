@@ -24,13 +24,12 @@
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1000;
-            pointer-events: auto;
+            z-index: 100;
         }
         #hamburger {
             cursor: pointer;
             font-size: 24px;
-            z-index: 1001;
+            z-index: 101;
             pointer-events: auto;
             color: white;
         }
@@ -43,7 +42,7 @@
             background: #222;
             color: #ccc;
             transition: left 0.3s ease;
-            z-index: 999;
+            z-index: 99;
             overflow-y: auto;
         }
         #sidebar.active {
@@ -128,9 +127,8 @@
             color: white;
             border: none;
             border-radius: 4px;
-            z-index: 10;
-            pointer-events: auto;
             font-size: 16px;
+            pointer-events: auto;
         }
         button:hover {
             background: #218838;
@@ -239,19 +237,11 @@
 <body>
     <header>
         <div id="hamburger">&#9776;</div>
-        <h1>DivoraSplit Dashboard</h1>
+        <h1>DivoraSplit Dashboard 🌐</h1>
     </header>
     <nav id="sidebar">
         <ul>
             <li data-section="dashboard-section"><span class="icon">🏠</span> Dashboard</li>
-            <li class="has-sub-menu"><span class="icon">👤</span> Profile
-                <ul class="sub-menu">
-                    <li data-section="profile-view-section">View Profile</li>
-                    <li data-section="profile-edit-section">Edit Profile</li>
-                    <li data-section="settings-section">Settings</li>
-                    <li data-section="logout-section">Logout</li>
-                </ul>
-            </li>
             <li class="has-sub-menu"><span class="icon">🏦</span> Balance
                 <ul class="sub-menu">
                     <li data-section="wallet-overview-section">Wallet Overview</li>
@@ -275,54 +265,6 @@
                 <ul class="sub-menu">
                     <li data-section="co-funding-section">Create Co-Funding Request</li>
                     <li data-section="pending-requests-section">Pending Requests</li>
-                    <li data-section="active-agreements-section">Active Agreements</li>
-                    <li data-section="completed-agreements-section">Completed Agreements</li>
-                </ul>
-            </li>
-            <li class="has-sub-menu"><span class="icon">💼</span> Available Funded
-                <ul class="sub-menu">
-                    <li data-section="my-funded-section">My Funded Accounts</li>
-                    <li data-section="partnered-accounts-section">Partnered Accounts</li>
-                </ul>
-            </li>
-            <li class="has-sub-menu"><span class="icon">👥</span> Available Traders
-                <ul class="sub-menu">
-                    <li data-section="browse-traders-section">Browse Traders</li>
-                    <li data-section="trader-profiles-section">Trader Profiles</li>
-                    <li data-section="apply-partnership-section">Apply for Partnership</li>
-                </ul>
-            </li>
-            <li class="has-sub-menu"><span class="icon">📩</span> Requests
-                <ul class="sub-menu">
-                    <li data-section="requests-co-funding-section">Co-Funding Requests</li>
-                    <li data-section="managed-trading-requests-section">Managed Trading Requests</li>
-                    <li data-section="managed-account-requests-section">Managed Account Requests</li>
-                    <li data-section="requests-dashboard-section">Dashboard (All Requests)</li>
-                </ul>
-            </li>
-            <li class="has-sub-menu"><span class="icon">📑</span> Orders
-                <ul class="sub-menu">
-                    <li data-section="open-orders-section">Open Orders</li>
-                    <li data-section="order-history-section">Order History</li>
-                </ul>
-            </li>
-            <li class="has-sub-menu"><span class="icon">✅</span> Completed
-                <ul class="sub-menu">
-                    <li data-section="completed-trades-section">Completed Trades</li>
-                    <li data-section="completed-requests-section">Completed Requests</li>
-                </ul>
-            </li>
-            <li class="has-sub-menu"><span class="icon">📈</span> Performance Chart
-                <ul class="sub-menu">
-                    <li data-section="account-performance-section">Account Performance</li>
-                    <li data-section="profit-loss-section">Profit/Loss Analytics</li>
-                </ul>
-            </li>
-            <li class="has-sub-menu"><span class="icon">💬</span> Messages
-                <ul class="sub-menu">
-                    <li data-section="inbox-section">Inbox</li>
-                    <li data-section="sent-messages-section">Sent Messages</li>
-                    <li data-section="notifications-section">Notifications</li>
                 </ul>
             </li>
         </ul>
@@ -469,40 +411,18 @@
             <h1>Transaction History</h1>
             <p>Full transaction history here.</p>
         </section>
-        <!-- Placeholder sections -->
-        <section id="dashboard-section"><h1>Dashboard</h1><p>Welcome to DivoraSplit! Navigate using the sidebar.</p></section>
-        <section id="profile-view-section"><h1>View Profile</h1><p>Profile details here.</p></section>
-        <section id="profile-edit-section"><h1>Edit Profile</h1><p>Edit profile form here.</p></section>
-        <section id="settings-section"><h1>Settings</h1><p>Settings options here.</p></section>
-        <section id="logout-section"><h1>Logout</h1><p>Logout confirmation here.</p></section>
+        <section id="dashboard-section">
+            <h1>Dashboard</h1>
+            <p>Welcome to DivoraSplit! Navigate using the sidebar to manage your account.</p>
+        </section>
         <section id="co-funding-section"><h1>Create Co-Funding Request</h1><p>Co-funding form here.</p></section>
         <section id="pending-requests-section"><h1>Pending Requests</h1><p>Pending co-funding requests here.</p></section>
-        <section id="active-agreements-section"><h1>Active Agreements</h1><p>Active agreements list here.</p></section>
-        <section id="completed-agreements-section"><h1>Completed Agreements</h1><p>Completed agreements list here.</p></section>
-        <section id="my-funded-section"><h1>My Funded Accounts</h1><p>Funded accounts list here.</p></section>
-        <section id="partnered-accounts-section"><h1>Partnered Accounts</h1><p>Partnered accounts list here.</p></section>
-        <section id="browse-traders-section"><h1>Browse Traders</h1><p>Trader list here.</p></section>
-        <section id="trader-profiles-section"><h1>Trader Profiles</h1><p>Trader profiles here.</p></section>
-        <section id="apply-partnership-section"><h1>Apply for Partnership</h1><p>Partnership application here.</p></section>
-        <section id="requests-co-funding-section"><h1>Co-Funding Requests</h1><p>Co-funding requests list here.</p></section>
-        <section id="managed-trading-requests-section"><h1>Managed Trading Requests</h1><p>Managed trading requests list here.</p></section>
-        <section id="managed-account-requests-section"><h1>Managed Account Requests</h1><p>Managed account requests list here.</p></section>
-        <section id="requests-dashboard-section"><h1>Requests Dashboard</h1><p>All requests overview here.</p></section>
-        <section id="open-orders-section"><h1>Open Orders</h1><p>Open orders list here.</p></section>
-        <section id="order-history-section"><h1>Order History</h1><p>Order history list here.</p></section>
-        <section id="completed-trades-section"><h1>Completed Trades</h1><p>Completed trades list here.</p></section>
-        <section id="completed-requests-section"><h1>Completed Requests</h1><p>Completed requests list here.</p></section>
-        <section id="account-performance-section"><h1>Account Performance</h1><p>Performance chart here.</p></section>
-        <section id="profit-loss-section"><h1>Profit/Loss Analytics</h1><p>Profit/loss analytics here.</p></section>
-        <section id="inbox-section"><h1>Inbox</h1><p>Messages inbox here.</p></section>
-        <section id="sent-messages-section"><h1>Sent Messages</h1><p>Sent messages list here.</p></section>
-        <section id="notifications-section"><h1>Notifications</h1><p>Notifications list here.</p></section>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM loaded, initializing DivoraSplit Dashboard...');
 
-// DOM Elements
+            // DOM Elements
             const hamburger = document.getElementById('hamburger');
             const sidebar = document.getElementById('sidebar');
             const menuItems = sidebar ? sidebar.querySelectorAll('li:not(.sub-menu li)') : [];
@@ -514,7 +434,7 @@
             const confirmDeposit = document.getElementById('confirm-deposit');
             const submitWithdrawal = document.getElementById('submit-withdrawal');
 
- // State
+            // State
             const userId = 'user123';
             const currentBalance = 2350.00;
             const availableBalance = 2100.00;
@@ -524,36 +444,30 @@
             let selectedDepositMethod = 'Bank Transfer';
             let selectedWithdrawMethod = 'Bank Transfer';
 
-// Debug Button Clicks
+            // Debug Button Clicks
             document.querySelectorAll('button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     console.log(`Button clicked: ${btn.id || btn.textContent}`);
                 });
             });
 
- // Hamburger Menu Fix
+            // Hamburger Menu Fix
             if (!hamburger) {
-                console.error('Hamburger element not found. Check for <div id="hamburger"> in DOM.');
+                console.error('Hamburger element not found. Ensure <div id="hamburger"> exists in <header>.');
             } else {
                 console.log('Hamburger element found:', hamburger);
-                try {
-                    hamburger.addEventListener('click', () => {
-                        console.log('Hamburger menu clicked');
-                        if (sidebar) {
-                            const isActive = sidebar.classList.toggle('active');
-                            console.log('Sidebar display set to:', isActive ? 'block' : 'none');
-                            console.log('Sidebar classes:', sidebar.className);
-                            console.log('Sidebar style.left:', sidebar.style.left);
-                        } else {
-                            console.error('Sidebar element not found');
-                        }
-                    });
-                } catch (e) {
-                    console.error('Error attaching hamburger event listener:', e);
-                }
+                hamburger.addEventListener('click', () => {
+                    if (!sidebar) {
+                        console.error('Sidebar element not found. Ensure <nav id="sidebar"> exists.');
+                        return;
+                    }
+                    console.log('Hamburger menu clicked');
+                    sidebar.classList.toggle('active');
+                    console.log('Sidebar state:', sidebar.classList.contains('active') ? 'Visible (left: 0)' : 'Hidden (left: -250px)');
+                });
             }
 
-// Accordion Menu
+            // Accordion Menu
             console.log(`Found ${menuItems.length} menu items`);
             menuItems.forEach(item => {
                 if (item.classList.contains('has-sub-menu')) {
@@ -570,7 +484,7 @@
                 }
             });
 
-  // Sub-Menu Navigation
+            // Sub-Menu Navigation
             subMenuItems.forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -594,22 +508,20 @@
                     item.classList.add('active');
                     item.closest('.has-sub-menu').classList.add('active');
                     if (window.innerWidth <= 767) {
-                        if (sidebar) {
-                            sidebar.classList.remove('active');
-                            console.log('Sidebar hidden on mobile after selection');
-                        }
+                        sidebar.classList.remove('active');
+                        console.log('Sidebar hidden on mobile after selection');
                     }
                 });
             });
 
-   // Quick Action Buttons
+            // Quick Action Buttons
             if (depositButton) {
                 depositButton.addEventListener('click', () => {
                     console.log('Deposit button clicked');
                     sections.forEach(sec => sec.classList.remove('active'));
                     document.getElementById('deposit-bank-section').classList.add('active');
                     console.log('Showing section: deposit-bank-section');
-                    if (window.innerWidth <= 767 && sidebar) {
+                    if (window.innerWidth <= 767) {
                         sidebar.classList.remove('active');
                     }
                 });
@@ -620,19 +532,19 @@
                     sections.forEach(sec => sec.classList.remove('active'));
                     document.getElementById('withdraw-bank-section').classList.add('active');
                     console.log('Showing section: withdraw-bank-section');
-                    if (window.innerWidth <= 767 && sidebar) {
+                    if (window.innerWidth <= 767) {
                         sidebar.classList.remove('active');
                     }
                 });
             }
 
- // Deposit and Withdrawal Tabs
+            // Deposit and Withdrawal Tabs
             const depositTabs = document.querySelectorAll('#deposit-bank-section .tab');
             const depositTabContents = document.querySelectorAll('#deposit-bank-section .tab-content');
             const withdrawTabs = document.querySelectorAll('#withdraw-bank-section .tab');
             const withdrawTabContents = document.querySelectorAll('#withdraw-bank-section .tab-content');
 
-  depositTabs.forEach(tab => {
+            depositTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     console.log(`Deposit tab clicked: ${tab.dataset.tab}`);
                     depositTabs.forEach(t => t.classList.remove('active'));
@@ -645,7 +557,7 @@
                 });
             });
 
-   withdrawTabs.forEach(tab => {
+            withdrawTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     console.log(`Withdraw tab clicked: ${tab.dataset.tab}`);
                     withdrawTabs.forEach(t => t.classList.remove('active'));
@@ -658,7 +570,7 @@
                 });
             });
 
-   // Data Management
+            // Data Management
             function loadTransactions() {
                 try {
                     const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
@@ -673,7 +585,7 @@
                 }
             }
 
-   function saveDeposits(deposits) {
+            function saveDeposits(deposits) {
                 try {
                     localStorage.setItem('deposits', JSON.stringify(deposits));
                 } catch (e) {
@@ -682,7 +594,7 @@
                 }
             }
 
-  function saveWithdrawals(withdrawals) {
+            function saveWithdrawals(withdrawals) {
                 try {
                     localStorage.setItem('withdrawals', JSON.stringify(withdrawals));
                 } catch (e) {
@@ -691,7 +603,7 @@
                 }
             }
 
- function loadTransactionHistory() {
+            function loadTransactionHistory() {
                 console.log('Loading transaction history');
                 transactionHistory.innerHTML = '';
                 const transactions = loadTransactions().slice(0, 5);
@@ -703,7 +615,7 @@
                     const tr = document.createElement('tr');
                     const statusIcon = t.status === 'Approved' ? '✅' : t.status === 'Pending' ? '⏳' : '❌';
                     tr.innerHTML = `
-<td>${t.timestamp.split(',')[0]}</td>
+                        <td>${t.timestamp.split(',')[0]}</td>
                         <td>${t.type}</td>
                         <td>$${t.amount.toFixed(2)}</td>
                         <td>${statusIcon} ${t.status}</td>
@@ -712,22 +624,23 @@
                 });
             }
 
-   // Deposit Functions
+            // Deposit Functions
             function generateReferenceCode() {
                 return 'DEP-' + Math.random().toString(36).substr(2, 5).toUpperCase();
             }
 
- function updateReferenceCode() {
+            function updateReferenceCode() {
                 const bankReference = document.getElementById('bank-reference');
                 if (bankReference && selectedDepositMethod === 'Bank Transfer') {
                     bankReference.textContent = generateReferenceCode();
                 }
             }
-  function submitDeposit() {
+
+            function submitDeposit() {
                 console.log(`Confirm Deposit clicked, method: ${selectedDepositMethod}`);
                 let amount, currency, details = {};
 
- if (selectedDepositMethod === 'Bank Transfer') {
+                if (selectedDepositMethod === 'Bank Transfer') {
                     amount = parseFloat(document.getElementById('bank-amount').value);
                     currency = document.getElementById('bank-currency').value;
                     const proof = document.getElementById('bank-proof')?.files[0];
@@ -746,12 +659,12 @@
                     details.proof = proof ? proof.name : 'No proof uploaded';
                 }
 
- if (!amount || amount <= 0) {
+                if (!amount || amount <= 0) {
                     alert('Please enter a valid amount.');
                     return;
                 }
 
-const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
+                const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
                 const newDeposit = {
                     id: deposits.length + 1,
                     method: selectedDepositMethod,
@@ -764,12 +677,13 @@ const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
                 };
                 deposits.push(newDeposit);
                 saveDeposits(deposits);
-  alert(`Deposit request for $${amount.toFixed(2)} via ${selectedDepositMethod} submitted! Status: Pending`);
+
+                alert(`Deposit request for $${amount.toFixed(2)} via ${selectedDepositMethod} submitted! Status: Pending`);
                 resetDepositForm();
                 loadTransactionHistory();
             }
 
-function resetDepositForm() {
+            function resetDepositForm() {
                 document.getElementById('bank-amount').value = '500';
                 document.getElementById('crypto-amount').value = '500';
                 document.getElementById('bank-currency').value = 'USD';
@@ -778,7 +692,8 @@ function resetDepositForm() {
                 if (document.getElementById('crypto-proof')) document.getElementById('crypto-proof').value = '';
                 updateReferenceCode();
             }
-   // Withdrawal Functions
+
+            // Withdrawal Functions
             function updateFeePreview() {
                 const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
                 const fee = amount * feeRate;
@@ -786,13 +701,13 @@ function resetDepositForm() {
                 document.getElementById('fee-preview').textContent = `You will receive: $${receiveAmount.toFixed(2)} (after ${feeRate * 100}% fee)`;
             }
 
-  function submitWithdrawal() {
+            function submitWithdrawal() {
                 console.log(`Submit Withdrawal clicked, method: ${selectedWithdrawMethod}`);
                 const amount = parseFloat(document.getElementById('withdraw-amount').value);
                 const currency = document.getElementById('withdraw-currency').value;
                 const otp = document.getElementById('otp-code').value;
 
- if (!amount || amount < minWithdrawal) {
+                if (!amount || amount < minWithdrawal) {
                     alert(`Please enter an amount of at least $${minWithdrawal.toFixed(2)}.`);
                     return;
                 }
@@ -805,7 +720,7 @@ function resetDepositForm() {
                     return;
                 }
 
-   let details = {};
+                let details = {};
                 if (selectedWithdrawMethod === 'Bank Transfer') {
                     const bankName = document.getElementById('bank-name').value;
                     const accountNumber = document.getElementById('bank-account-number').value;
@@ -838,7 +753,7 @@ function resetDepositForm() {
                     };
                 }
 
-   const withdrawals = JSON.parse(localStorage.getItem('withdrawals')) || [];
+                const withdrawals = JSON.parse(localStorage.getItem('withdrawals')) || [];
                 const newWithdrawal = {
                     id: withdrawals.length + 1,
                     method: selectedWithdrawMethod,
@@ -852,12 +767,12 @@ function resetDepositForm() {
                 withdrawals.push(newWithdrawal);
                 saveWithdrawals(withdrawals);
 
-   alert(`Withdrawal request for $${amount.toFixed(2)} via ${selectedWithdrawMethod} submitted! Status: Pending`);
+                alert(`Withdrawal request for $${amount.toFixed(2)} via ${selectedWithdrawMethod} submitted! Status: Pending`);
                 resetWithdrawalForm();
                 loadTransactionHistory();
             }
 
-  function resetWithdrawalForm() {
+            function resetWithdrawalForm() {
                 document.getElementById('withdraw-amount').value = '200';
                 document.getElementById('withdraw-currency').value = 'USD';
                 document.getElementById('bank-name').value = 'GTBank';
@@ -872,7 +787,7 @@ function resetDepositForm() {
                 updateFeePreview();
             }
 
- // Event Listeners
+            // Event Listeners
             if (confirmDeposit) {
                 confirmDeposit.addEventListener('click', submitDeposit);
             }
@@ -884,26 +799,26 @@ function resetDepositForm() {
                 document.getElementById('withdraw-currency').addEventListener('change', updateFeePreview);
             }
 
-  // Initial Load
+            // Initial Load
             console.log('Initializing dashboard');
             updateReferenceCode();
             updateFeePreview();
             loadTransactionHistory();
 
-// Prepopulate sample data for testing
-            const sampleDeposits = [
-                { id: 1, method: 'Bank Transfer', amount: 500, currency: 'USD', details: {}, status: 'Approved', timestamp: '2025-09-01, 12:00:00', user_id: 'user123' },
-                { id: 2, method: 'Bank Transfer', amount: 1000, currency: 'USD', details: {}, status: 'Approved', timestamp: '2025-08-25, 12:00:00', user_id: 'user123' }
-            ];
-            const sampleWithdrawals = [
-                { id: 1, method: 'Bank Transfer', amount: 200, currency: 'USD', details: {}, status: 'Pending', timestamp: '2025-08-29, 12:00:00', user_id: 'user123' },
-                { id: 2, method: 'Crypto Wallet', amount: 150, currency: 'USD', details: { coin_type: 'USDT' }, status: 'Rejected', timestamp: '2025-08-20, 12:00:00', user_id: 'user123' }
-            ];
-            if (!localStorage.getItem('deposits')) {
-                localStorage.setItem('deposits', JSON.stringify(sampleDeposits));
-            }
-            if (!localStorage.getItem('withdrawals')) {
-                localStorage.setItem('withdrawals', JSON.stringify(sampleWithdrawals));
+            // Prepopulate sample data if empty
+            const deposits = JSON.parse(localStorage.getItem('deposits')) || [];
+            const withdrawals = JSON.parse(localStorage.getItem('withdrawals')) || [];
+            if (deposits.length === 0 && withdrawals.length === 0) {
+                console.log('Prepopulating sample transactions');
+                saveDeposits([
+                    { id: 1, method: 'Bank Transfer', amount: 500, currency: 'USD', details: {}, status: 'Approved', timestamp: '2025-09-01, 12:00:00', user_id: 'user123' },
+                    { id: 2, method: 'Bank Transfer', amount: 1000, currency: 'USD', details: {}, status: 'Approved', timestamp: '2025-08-25, 12:00:00', user_id: 'user123' }
+                ]);
+                saveWithdrawals([
+                    { id: 1, method: 'Bank Transfer', amount: 200, currency: 'USD', details: {}, status: 'Pending', timestamp: '2025-08-29, 12:00:00', user_id: 'user123' },
+                    { id: 2, method: 'Crypto Wallet', amount: 150, currency: 'USD', details: { coin_type: 'USDT' }, status: 'Rejected', timestamp: '2025-08-20, 12:00:00', user_id: 'user123' }
+                ]);
+                loadTransactionHistory();
             }
         });
     </script>
